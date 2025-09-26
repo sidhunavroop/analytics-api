@@ -6,3 +6,5 @@ pydantic
 sqlalchemy
 timescaledb
 requests
+python-decouple #python-dotenv
+psycopg[binary]
