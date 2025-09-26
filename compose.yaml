@@ -14,6 +14,9 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8002 --reload
     volumes:
       - ./src:/code:rw
+    depends_on:
+      db_service:
+        condition: service_healthy
     develop:
       watch:
         - action: rebuild
@@ -34,6 +37,11 @@ services:
     #   - 5432
     volumes:
       - timescaledb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U time-user -d timescaledb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   timescaledb_data:
